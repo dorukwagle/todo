@@ -2,7 +2,7 @@ import express from "express";
 import {authenticate, createSession} from "./authModel";
 import {Users} from "@prisma/client";
 import SessionRequest from "../../entities/SessionRequest";
-import {authorize} from "../../middlewares/auth";
+import authorize from "../../middlewares/auth";
 import prismaClient from "../../utils/prismaClient";
 
 
