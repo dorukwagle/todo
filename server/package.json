@@ -1,0 +1,44 @@
+{
+  "name": "shelfwise",
+  "version": "1.0.0",
+  "description": "A modern library management system: digital shelf of books",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest --no-file-parallelism",
+    "dev": "ts-node src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "author": "Doruk Wagle",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "@types/uuid": "^10.0.0",
+    "get-file-object-from-local-path": "^1.0.2",
+    "install": "^0.13.0",
+    "npm": "^10.8.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.2",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^7.1.0",
+    "path": "^0.12.7",
+    "prisma": "^5.16.2",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  }
+}
