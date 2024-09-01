@@ -9,22 +9,23 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Badge } from "@mui/material";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useState, MouseEvent } from "react";
 import DarkModeToggle from "./DarkModeToggle";
 import Logo from "../assets/shelfwise-logo-fancy.png";
 import useUser from "../hooks/useUser";
+import useLogout from "../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   toggleOnChange?: (theme: "light" | "dark") => void;
   onMenuBtnClick?: () => void;
 }
 
-let settings = ["Logout"];
-
 const NavBar = ({ toggleOnChange, onMenuBtnClick }: Props) => {
+  const navigate = useNavigate();
+
   const { data: user } = useUser();
+  const {mutate: logout} = useLogout(() => navigate('/'));
 
   // if (userRoles.)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -37,6 +38,8 @@ const NavBar = ({ toggleOnChange, onMenuBtnClick }: Props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => logout();
 
   return (
     <AppBar position="sticky" color="secondary" enableColorOnDark>
@@ -86,11 +89,6 @@ const NavBar = ({ toggleOnChange, onMenuBtnClick }: Props) => {
             </IconButton>
             {user?.userId && (
               <>
-                <IconButton size="large" color="inherit" sx={{ pr: 0 }}>
-                  <Badge badgeContent={17} color="error">
-                    <NotificationsIcon fontSize="large" />
-                  </Badge>
-                </IconButton>
                 <Tooltip title="User Info">
                   <IconButton
                     onClick={handleOpenUserMenu}
@@ -98,8 +96,7 @@ const NavBar = ({ toggleOnChange, onMenuBtnClick }: Props) => {
                     sx={{ pr: 0 }}
                   >
                     <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
+                      alt={user?.fullName || "Doruk"}
                     />
                   </IconButton>
                 </Tooltip>
@@ -121,11 +118,9 @@ const NavBar = ({ toggleOnChange, onMenuBtnClick }: Props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu} hidden>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem onClick={handleLogout} hidden>
+                  <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-              ))}
               <MenuItem>
                 <IconButton
                   size="large"

@@ -4,7 +4,8 @@ import RegistrationPage from "./pages/RegistrationPage";
 import PrivateRoutes from "./pages/PrivateRoutes";
 import ErrorPage from "./pages/ErrorPage";
 import SignInPage from "./pages/SignInPage";
-import { Dashboard } from "@mui/icons-material";
+import DashboardPage from "./pages/DashboardPage";
+import SearchPage from "./pages/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,10 @@ const router = createBrowserRouter([
       { path: "/sign-up", element: <RegistrationPage /> },
       {
         element: <PrivateRoutes />,
-        children: [{ path: "dashboard", element: <Dashboard /> }],
+        children: [
+          { path: "dashboard", element: <DashboardPage /> },
+          { path: "search", element: <SearchPage /> }
+        ],
       },
     ],
   },
