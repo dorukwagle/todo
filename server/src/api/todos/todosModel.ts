@@ -59,20 +59,27 @@ const updateTodo = async (userId: string, body: UpdateTodoType) => {
 };
 
 const deleteTodo = async (userId: string, todoId: string) => {
-    await prismaClient.todos.delete({
+    await prismaClient.todos.update({
         where: {
             userId,
             todoId,
         },
+        data: {
+            deletedAt: new Date(),
+        }
     });
 };
 
-const getFilter = (userId: string, seed?: string) => {
-    const noSeed = { userId };
+const getFilter = (userId: string, filter: TodoParamsType) => {
+    const seed = filter.seed;
+    const status = filter.status;
+
+    const noSeed = { userId, status };
     const withSeed = {
         AND: [
             {
                 userId,
+                status,
                 OR: [
                     {
                         title: {
@@ -106,16 +113,9 @@ const paginateTodos = async (userId: string, body: TodoParamsType) => {
     const page = filter.page || 1;
     const pageSize = filter.pageSize || parseInt(process.env.PAGE_SIZE || "10");
 
-    const orderBy = {
-        _relevance: {
-            fields: ["title", "body"],
-            search: filter.seed || "",
-            sort: "asc",
-        },
-    };
 
     res.data = await prismaClient.todos.findMany({
-        where: getFilter(userId, filter.seed),
+        where: getFilter(userId, filter),
         orderBy: filter.seed
             ? {
                   _relevance: {
@@ -132,7 +132,7 @@ const paginateTodos = async (userId: string, body: TodoParamsType) => {
     });
 
     const total = await prismaClient.todos.count({
-        where: getFilter(userId, filter.seed),
+        where: getFilter(userId, filter),
     });
 
     res.info.itemsCount = total;

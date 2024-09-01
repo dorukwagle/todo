@@ -11,7 +11,7 @@ todos.post("/", async (req: SessionRequest, res) => {
     res.status(statusCode).json(error || data);
 });
 
-todos.put("/:todoId", async (req: SessionRequest, res) => {
+todos.put("/", async (req: SessionRequest, res) => {
     const {error, statusCode, data} = await updateTodo(req.session!.userId, req.body);
     res.status(statusCode).json(error || data);
 });
