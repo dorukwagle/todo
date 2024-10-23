@@ -14,7 +14,7 @@ process.on('unhandledRejection', (reason, p) => {
 }); 
 
 const gracefulShutdown = () => {
-  server.close(() => {
+  server.close(() => {~
     console.log('Process terminated');
   });
   setTimeout(() => {
