@@ -29,7 +29,7 @@ const authenticate = async (username: string, password: string): Promise<CustomU
     return user;
 }
 
-const createSession = async (user: Omit<Users, "password">): Promise<string> => {
+const createSession = async (user: CustomUser): Promise<string> => {
     const userInfo = await prismaClient.users.findUnique({
         where: {
             userId: user.userId
