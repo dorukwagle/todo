@@ -12,6 +12,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useLogin from "../hooks/useLogin";
+import InfoModel from "../components/InfoModel";
 
 const SignInPage = () => {
   const navigate = useNavigate();

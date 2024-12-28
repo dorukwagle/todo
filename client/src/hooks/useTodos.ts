@@ -4,7 +4,6 @@ import { DAY } from "../entities/constants";
 import { AxiosError } from "axios";
 import TodoResponse from "../entities/TodoResponse";
 import TodoParams from "../entities/TodoParams";
-import Todo from "../entities/Todo";
 
 
 interface Params {

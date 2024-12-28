@@ -2,8 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import ThemedApp from "./ThemedApp.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 import { AxiosError } from "axios";
-import { HOUR } from "./entities/constants.ts";
+import { HOUR, NET_ERR_KEY } from "./entities/constants.ts";
 
 
 const queryClient = new QueryClient({
@@ -13,7 +15,8 @@ const queryClient = new QueryClient({
         if (!(error instanceof AxiosError)) return;
         if (error.response?.status === 401)return;
         if (error.code && error.code === "ERR_NETWORK") {
-          return alert("Network Error!. Please connect to the internet");
+          queryClient.setQueryData(NET_ERR_KEY, () => true);
+          console.log("from main", queryClient.getQueryData(NET_ERR_KEY));
         }
       },
       retry: 1,
@@ -26,10 +29,9 @@ const queryClient = new QueryClient({
         if (!(error instanceof AxiosError)) return true;
         if (error.response?.status === 401) return false;
         if (error.code && error.code === "ERR_NETWORK") {
-          alert("Network Error!. Please connect to the internet");
+          queryClient.setQueryData(NET_ERR_KEY, () => true);
+          console.log("from main", queryClient.getQueryData(NET_ERR_KEY));
         }
-        // if (error.response?.status === 401)
-          // queryClient.setQueryData(USER_CACHE_KEY, () => ({}));
         return false;
       },
       retry: 2,
@@ -41,6 +43,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>  
         <ThemedApp />
+        <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>
 );
