@@ -16,7 +16,6 @@ const queryClient = new QueryClient({
         if (error.response?.status === 401)return;
         if (error.code && error.code === "ERR_NETWORK") {
           queryClient.setQueryData(NET_ERR_KEY, () => true);
-          console.log("from main", queryClient.getQueryData(NET_ERR_KEY));
         }
       },
       retry: 1,
@@ -30,7 +29,6 @@ const queryClient = new QueryClient({
         if (error.response?.status === 401) return false;
         if (error.code && error.code === "ERR_NETWORK") {
           queryClient.setQueryData(NET_ERR_KEY, () => true);
-          console.log("from main", queryClient.getQueryData(NET_ERR_KEY));
         }
         return false;
       },
